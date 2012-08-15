@@ -15,14 +15,24 @@
   <script type="text/javascript" src="carto/scripts/cartodb-popup-min.js"></script>
   <script type="text/javascript" src="carto/scripts/tilelayer.bing.js"></script>
   <script type="text/javascript" src="scripts/neighbordiff.js"></script>
+  <style type="text/css">
+.marker{
+  vertical-align: middle;
+  width: 32px;
+}
+  </style>
 </head>
 <body onload="init()" style="padding:6px;">
   <div style="height:100%;" class="container">
     <div class="row">
       <div class="span12">
-        <h3>NeighborDiff</h3><strong>Click a building to change its status or make a note</strong><img id="marker_Demolished" src="http://www.roche.com/red-dot.gif" draggable="true" ondragstart="dragstarted(event)" style="vertical-align:middle"/><img id="marker_Moved" src="http://www.roche.com/blue-dot.gif" draggable="true" ondragstart="dragstarted(event)" style="vertical-align:middle"/><img id="marker_Renovated" src="http://files.tainasplace.webnode.com/200000986-79ad77aa77/map%20marker%20green.jpg" draggable="true" ondragstart="dragstarted(event)" style="vertical-align:middle"/><img id="marker_Unchanged" src="http://library.csun.edu/images/google_maps/marker-orange.png" draggable="true" ondragstart="dragstarted(event)" style="vertical-align:middle"/>
+        <h3>NeighborDiff</h3><strong>Drag a marker onto a building to change its status</strong>
+        <img class="marker" id="marker_Demolished" src="images/redmarker.png" draggable="true" ondragstart="dragstarted(event)"/>
+        <img id="marker_Moved" src="images/bluemarker.png" draggable="true" ondragstart="dragstarted(event)"/>
+        <img id="marker_Renovated" src="images/greenmarker.png" draggable="true" ondragstart="dragstarted(event)"/>
+        <img id="marker_Unchanged" src="images/orangemarker.png" draggable="true" ondragstart="dragstarted(event)"/>
         <div style="float:right">
-          <input id="placesearch" type="text" placeholder="1400 Coleman Ave" onkeyup="checkForEnter(event)" class="span4"/><a onclick="searchAddress()" style="vertical-align:top" class="btn btn-info">Search</a>
+          <a class="btn btn-info" href="https://github.com/mapmeld/MaconMaps/tree/gh-pages">View Source Code</a>
         </div>
       </div>
     </div>
