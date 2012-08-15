@@ -1,1 +1,38 @@
-GitHub pages test
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
+  <title>NeighborDiff</title>
+  <link rel="stylesheet" href="/carto/stylesheets/leaflet.css" type="text/css"/><!-- [if lte IE 8]
+  <link rel="stylesheet" href="/carto/stylesheets/leaflet.ie.css" type="text/css"/>-->
+  <link rel="stylesheet" href="/carto/stylesheets/cartodb-leaflet.css" type="text/css"/>
+  <link href="/stylesheets/bootstrap-mini.css" rel="stylesheet" type="text/css"/>
+  <link href="/stylesheets/neighbordiff.css" rel="stylesheet" type="text/css"/>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  <script type="text/javascript" src="/carto/scripts/leaflet.js"></script>
+  <script type="text/javascript" src="/carto/scripts/wax.leaf.min-7.0.0dev1-touched.js"></script>
+  <script type="text/javascript" src="/carto/scripts/cartodb-leaflet-min.js"></script>
+  <script type="text/javascript" src="/carto/scripts/cartodb-popup-min.js"></script>
+  <script type="text/javascript" src="/carto/scripts/tilelayer.bing.js"></script>
+  <script type="text/javascript" src="/scripts/neighbordiff.js"></script>
+</head>
+<body onload="init()" style="padding:6px;">
+  <div style="height:100%;" class="container">
+    <div class="row">
+      <div class="span12">
+        <h3>NeighborDiff</h3><strong>Click a building to change its status or make a note</strong><img id="marker_Demolished" src="http://www.roche.com/red-dot.gif" draggable="true" ondragstart="dragstarted(event)" style="vertical-align:middle"/><img id="marker_Moved" src="http://www.roche.com/blue-dot.gif" draggable="true" ondragstart="dragstarted(event)" style="vertical-align:middle"/><img id="marker_Renovated" src="http://files.tainasplace.webnode.com/200000986-79ad77aa77/map%20marker%20green.jpg" draggable="true" ondragstart="dragstarted(event)" style="vertical-align:middle"/><img id="marker_Unchanged" src="http://library.csun.edu/images/google_maps/marker-orange.png" draggable="true" ondragstart="dragstarted(event)" style="vertical-align:middle"/>
+        <div style="float:right">
+          <input id="placesearch" type="text" placeholder="1400 Coleman Ave" onkeyup="checkForEnter(event)" class="span4"/><a onclick="searchAddress()" style="vertical-align:top" class="btn btn-info">Search</a>
+        </div>
+      </div>
+    </div>
+    <div style="height:85%;" class="row">
+      <ul style="margin-left:20px;" class="span12 nav nav-pills">
+        <li id="streetlayer" class="active"><a href="#" onclick="setMap('street')">Streets</a></li>
+        <li id="satlayer"><a href="#" onclick="setMap('sat')">Satellite</a></li>
+      </ul>
+      <div id="map" style="height:85%;" ondragend="dragended(event)" ondrop="dropped(event)" ondragover="allowDrop(event)" class="span12"></div>
+    </div>
+  </div>
+</body>
+</html>
