@@ -15,15 +15,9 @@
   <script type="text/javascript" src="carto/scripts/cartodb-popup-min.js"></script>
   <script type="text/javascript" src="carto/scripts/tilelayer.bing.js"></script>
   <script type="text/javascript" src="scripts/neighbordiff.js"></script>
-  <style type="text/css">
-.marker{
-  vertical-align: middle;
-  width: 32px;
-}
-  </style>
 </head>
-<body onload="init()" style="padding:6px;">
-  <div style="height:100%;" class="container">
+<body onload="init()">
+  <div class="container">
     <div class="row">
       <div class="span12">
         <h3>NeighborDiff</h3><strong>Drag a marker onto a building to change its status</strong>
@@ -31,17 +25,21 @@
         <img class="marker" id="marker_Moved" src="images/bluemarker.png" draggable="true" ondragstart="dragstarted(event)"/>
         <img class="marker" id="marker_Renovated" src="images/greenmarker.png" draggable="true" ondragstart="dragstarted(event)"/>
         <img class="marker" id="marker_Unchanged" src="images/orangemarker.png" draggable="true" ondragstart="dragstarted(event)"/>
-        <div style="float:right">
-          <a class="btn btn-info" href="https://github.com/mapmeld/MaconMaps/tree/gh-pages">View Source Code</a>
+        |
+        <img class="marker" id="marker_NewBuilding" src="images/newmarker.png" draggable="true" ondragstart="dragstarted(event)"/>
+        <div class="codebtn">
+          <a class="btn btn-info" href="https://github.com/codeforamerica/NeighborDiff" target="_blank">View Source Code</a>
+          <br/>
+          Open sourced by <a href="http://codeforamerica.org" target="_blank">Code for America</a>.
         </div>
       </div>
     </div>
-    <div style="height:85%;" class="row">
-      <ul style="margin-left:20px;" class="span12 nav nav-pills">
+    <div id="maprow" class="row">
+      <ul class="span12 nav nav-pills">
         <li id="streetlayer" class="active"><a href="#" onclick="setMap('street')">Streets</a></li>
         <li id="satlayer"><a href="#" onclick="setMap('sat')">Satellite</a></li>
       </ul>
-      <div id="map" style="height:85%;" ondragend="dragended(event)" ondrop="dropped(event)" ondragover="allowDrop(event)" class="span12"></div>
+      <div id="map" ondragend="dragended(event)" ondrop="dropped(event)" ondragover="allowDrop(event)" class="span12"></div>
     </div>
   </div>
 </body>

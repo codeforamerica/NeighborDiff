@@ -2,9 +2,10 @@ var map, building_pop, terrainLayer, satLayer, cartodb, dragtype;
 var zoomLayers = [];
 
 // CartoDB config options
-var table_proxy = "http://maconmaps.herokuapp.com";
 var carto_user = "mapmeld";
 var carto_table = "collegeplusintown";
+// Your server to write to CartoDB without revealing your API key
+var table_proxy = "http://maconmaps.herokuapp.com";
 
 // prevent IE problems with console.log
 if(!console || !console.log){
@@ -113,12 +114,23 @@ function dragended(e){
   allowDrop(e);
 }
 function dropped(e){
-  // fake a click to change status of building at drop point
-  cartodb.interaction.screen_feature({ x: e.clientX || e.pageX, y: e.clientY || e.pageY }, function(f){
-    var id = f.cartodb_id;
-    dragtype = dragtype.replace("marker_", "");
-    setStatus(id, dragtype);
-    dragtype = null;
-  });
+  if(dragtype == "marker_NewBuilding"){
+    // add a marker at the drop location
+    // find latitude / longitude of drop point
+    var dropPoint = map.mouseEventToLatLng(e);
+    // add a marker to the visible map
+    var dropMarker = new L.Marker( dropPoint );
+    map.addLayer(dropMarker);
+    // add a marker to a table
+  }
+  else{
+    // fake a click to change status of building at drop point
+    cartodb.interaction.screen_feature({ x: e.clientX || e.pageX, y: e.clientY || e.pageY }, function(f){
+      var id = f.cartodb_id;
+      dragtype = dragtype.replace("marker_", "");
+      setStatus(id, dragtype);
+      dragtype = null;
+    });
+  }
   allowDrop(e);
 }

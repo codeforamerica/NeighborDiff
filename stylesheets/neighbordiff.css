@@ -1,6 +1,25 @@
 html, body{
   height: 100%;
   width: 100%;
+  background-color: #f8f8f8;
+}
+body{
+  padding: 6px;
+}
+.container{
+  height: 100%;
+}
+div.codebtn{
+  float: right;
+}
+#maprow{
+  height: 85%;
+}
+#map{
+  height: 85%;
+}
+.nav-pills{
+  margin-left: 20px;
 }
 [draggable] {
   -moz-user-select: none;
@@ -8,4 +27,8 @@ html, body{
   -webkit-user-select: none;
   user-select: none;
   cursor: move;
+}
+.marker{
+  vertical-align: middle;
+  width: 32px;
 }
