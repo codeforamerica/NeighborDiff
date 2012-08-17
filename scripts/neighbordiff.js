@@ -15,7 +15,7 @@ function init(){
   map = new L.Map('map');
 
   // set up Stamen tiles
-  var toner = 'http://{s}.tile.stamen.com/terrain-lines/{z}/{x}/{y}.png';
+  var toner = 'http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png';
   var tonerAttrib = 'Map data &copy; 2012 OpenStreetMap contributors, Tiles &copy; 2012 Stamen Design';
   terrainLayer = new L.TileLayer(toner, {maxZoom: 18, attribution: tonerAttrib});
   map.addLayer(terrainLayer);
