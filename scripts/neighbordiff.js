@@ -12,7 +12,9 @@ if(!console || !console.log){
   console = { log: function(e){ } };
 }
 function init(){
-  map = new L.Map('map');
+  map = new L.Map('map', { zoomControl: false, panControl: false });
+  L.control.pan().addTo(map);
+  L.control.zoom().addTo(map);
 
   // set up Stamen tiles
   var toner = 'http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png';

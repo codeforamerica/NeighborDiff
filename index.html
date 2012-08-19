@@ -3,8 +3,12 @@
 <head>
   <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
   <title>NeighborDiff</title>
-  <link rel="stylesheet" href="carto/stylesheets/leaflet.css" type="text/css"/><!-- [if lte IE 8]
-  <link rel="stylesheet" href="carto/stylesheets/leaflet.ie.css" type="text/css"/>-->
+  <link rel="stylesheet" href="carto/stylesheets/leaflet.css" type="text/css"/>
+  <link rel="stylesheet" href="pancontrol/stylesheets/L.Control.Pan.css" type="text/css"/>
+  <!-- [if lte IE 8]
+    <link rel="stylesheet" href="carto/stylesheets/leaflet.ie.css" type="text/css"/>
+    <link rel="stylesheet" href="pancontrol/stylesheets/L.Control.Pan.ie.css" type="text/css"/>
+  -->
   <link rel="stylesheet" href="carto/stylesheets/cartodb-leaflet.css" type="text/css"/>
   <link href="stylesheets/bootstrap-mini.css" rel="stylesheet" type="text/css"/>
   <link href="stylesheets/neighbordiff.css" rel="stylesheet" type="text/css"/>
@@ -14,6 +18,7 @@
   <script type="text/javascript" src="carto/scripts/cartodb-leaflet-min.js"></script>
   <script type="text/javascript" src="carto/scripts/cartodb-popup-min.js"></script>
   <script type="text/javascript" src="carto/scripts/tilelayer.bing.js"></script>
+  <script type="text/javascript" src="pancontrol/scripts/L.Control.Pan.js"></script>
   <script type="text/javascript" src="scripts/neighbordiff.js"></script>
 </head>
 <body onload="init()">
