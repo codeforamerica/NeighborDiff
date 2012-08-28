@@ -74,6 +74,12 @@ function setMap(lyr){
     $("#satlayer").addClass("active");
   }
 }
+function replaceAll(src, oldr, newr){
+  while(src.indexOf(oldr) > -1){
+    src = src.replace(oldr, newr);
+  }
+  return src;
+}
 function setStatus(id, status){
   // write the new status of the building using CartoDB's SQL API
   // do that on the server side, to keep your API key secret
@@ -138,15 +144,18 @@ function dropped(e){
   allowDrop(e);
 }
 function saveDetail(){
-  // popup save
+  // save name and details from popup dialog
   var id = $('#selectedid').val();
   var name = $('#poly_name').val();
   var detail = $('#poly_detail').val();
+  // make the actual call on the server, to hide API key
   $.getJSON(table_proxy + "/detailtable?table=" + carto_table + "&id=" + id + "&name=" + encodeURIComponent(name) + "&detail=" + encodeURIComponent(detail), function(data){ });
+  // request the geometry of the affected building
   $.getJSON("http://" + carto_user + ".cartodb.com/api/v2/sql?format=GeoJSON&q=SELECT%20ST_AsGeoJSON(the_geom)%20FROM%20" + carto_table + "%20WHERE%20cartodb_id=" + id).done(function(poly){
     // until zoom changes and tiles are refreshed, show polygon with this name and description
     L.geoJson(JSON.parse(poly.rows[0].st_asgeojson), {
       style: function (feature) {
+        // color building based on status
         if(status == "Demolished"){
           return {color: "#f00", opacity: 1};
         }
@@ -161,6 +170,7 @@ function saveDetail(){
         }
       },
       onEachFeature: function(feature, layer){
+        // until the map moves, show new name and description in special popup
         layer.bindPopup("<label><em>Name: </em></label><strong>" + replaceAll(replaceAll(name,"<","&lt;"),">","&gt;") + "</strong><br/><label><em>Description: </em></label><strong>" + replaceAll(replaceAll(detail,"<","&lt;"),">","&gt;") + "</strong>");
         zoomLayers.push(layer);
       }
