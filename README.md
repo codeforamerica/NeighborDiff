@@ -14,7 +14,9 @@ The building under construction in the photo below is now a dormitory, and a jou
 
 <img src="http://i.imgur.com/iNxUD.png"/>
 
-In the future, NeighborDiff will let you add more names and information when you click on a building.
+This building needs a name and description on the final map / export to OpenStreetMap. Click the building, add information, then click Save.
+
+<img src="http://i.imgur.com/ajdbg.png"/>
 
 The output data can be added to OpenStreetMap with this site as proof of community review.
 
