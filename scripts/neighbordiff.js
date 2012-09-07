@@ -38,7 +38,7 @@ function init(){
     table_name: carto_table,
     query: "SELECT * FROM " + carto_table,
     // use Carto to set a style
-    tile_style: carto_table + "{polygon-fill:orange;polygon-opacity:0.3;} " + carto_table + "[status='Demolished']{polygon-fill:red;} " + carto_table + "[status='Renovated']{polygon-fill:green;} " + carto_table + "[status='Moved']{polygon-fill:blue;}",
+    tile_style: "#" + carto_table + "{polygon-fill:orange;polygon-opacity:0.3;} #" + carto_table + "[status='Demolished']{polygon-fill:red;} #" + carto_table + "[status='Renovated']{polygon-fill:green;} #" + carto_table + "[status='Moved']{polygon-fill:blue;}",
     interactivity: "cartodb_id, status, name, description",
     featureClick: function(ev, latlng, pos, data){
       //building_pop.setLatLng(latlng).setContent("Clicked a building");
