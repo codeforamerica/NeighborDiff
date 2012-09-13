@@ -28,10 +28,18 @@ function init(){
   
   cartodb = new L.CartoDBLayer({
     map: map,
+<<<<<<< HEAD
     user_name:'mapmeld',
     table_name: 'collegeplusintown',
     query: "SELECT * FROM collegeplusintown",
     tile_style: "#collegeplusintown{polygon-fill:orange;polygon-opacity:0.3;} #collegeplusintown[status='Demolished']{polygon-fill:red;} #collegeplusintown[status='Renovated']{polygon-fill:green;} #collegeplusintown[status='Moved']{polygon-fill:blue;}",
+=======
+    user_name: carto_user,
+    table_name: carto_table,
+    query: "SELECT * FROM " + carto_table,
+    // use Carto to set a style
+    tile_style: "#" + carto_table + "{polygon-fill:orange;polygon-opacity:0.3;} #" + carto_table + "[status='Demolished']{polygon-fill:red;} #" + carto_table + "[status='Renovated']{polygon-fill:green;} #" + carto_table + "[status='Moved']{polygon-fill:blue;}",
+>>>>>>> 0d5cd50d356bf0d5efb1020ea15d5d053983f4da
     interactivity: "cartodb_id, status, name, description",
     featureClick: function(ev, latlng, pos, data){
       building_pop.setLatLng(latlng).setContent("<input type='hidden' id='selectedid' value='" + data.cartodb_id + "'/><label>Name</label><br/><input id='poly_name' class='x-large' value='" + replaceAll((data.name || ""),"'","\\'") + "'/><br/><label>Add Detail</label><br/><textarea id='poly_detail' rows='6' cols='25'>" + replaceAll(replaceAll((data.description || ""),"<","&lt;"),">","&gt;") + "</textarea><br/><a class='btn' onclick='saveDetail()' style='width:40%;'>Save</a>");
