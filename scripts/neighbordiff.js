@@ -1,5 +1,8 @@
 var map, building_pop, terrainLayer, satLayer, cartodb, dragtype, markers;
 var zoomLayers = [];
+var user_name = "mapmeld";
+var table_name = "collegeplusintown";
+var api_server = "http://maconmaps.herokuapp.com";
 if(!console || !console.log){
   console = { log: function(e){ } };
 }
@@ -28,15 +31,10 @@ function init(){
   
   cartodb = new L.CartoDBLayer({
     map: map,
-    user_name:'mapmeld',
-    table_name: 'collegeplusintown',
-    query: "SELECT * FROM collegeplusintown",
-    tile_style: "#collegeplusintown{polygon-fill:orange;polygon-opacity:0.3;} #collegeplusintown[status='Demolished']{polygon-fill:red;} #collegeplusintown[status='Renovated']{polygon-fill:green;} #collegeplusintown[status='Moved']{polygon-fill:blue;}",
-    user_name: carto_user,
-    table_name: carto_table,
-    query: "SELECT * FROM " + carto_table,
-    // use Carto to set a style
-    tile_style: "#" + carto_table + "{polygon-fill:orange;polygon-opacity:0.3;} #" + carto_table + "[status='Demolished']{polygon-fill:red;} #" + carto_table + "[status='Renovated']{polygon-fill:green;} #" + carto_table + "[status='Moved']{polygon-fill:blue;}",
+    user_name: user_name,
+    table_name: table_name,
+    query: "SELECT * FROM " + table_name,
+    tile_style: "#" + table_name + "{polygon-fill:orange;polygon-opacity:0.3;} #" + table_name + "[status='Demolished']{polygon-fill:red;} #" + table_name + "[status='Renovated']{polygon-fill:green;} #" + table_name + "[status='Moved']{polygon-fill:blue;}",
     interactivity: "cartodb_id, status, name, description",
     featureClick: function(ev, latlng, pos, data){
       building_pop.setLatLng(latlng).setContent("<input type='hidden' id='selectedid' value='" + data.cartodb_id + "'/><label>Name</label><br/><input id='poly_name' class='x-large' value='" + replaceAll((data.name || ""),"'","\\'") + "'/><br/><label>Add Detail</label><br/><textarea id='poly_detail' rows='6' cols='25'>" + replaceAll(replaceAll((data.description || ""),"<","&lt;"),">","&gt;") + "</textarea><br/><a class='btn' onclick='saveDetail()' style='width:40%;'>Save</a>");
@@ -58,7 +56,7 @@ function init(){
   
   // load special markers from MongoDB
   markers = {};
-  $.getJSON('/storedbuildings?table=collegeplusintown', function(buildings){
+  $.getJSON('/storedbuildings?table=' + table_name, function(buildings){
     for(var b=0;b<buildings.length;b++){
       var pt = new L.Marker(new L.LatLng(buildings[b].ll[1], buildings[b].ll[0])).bindPopup("<input type='hidden' id='selectedid' value='stored:" + buildings[b]._id + "'/><label>Name</label><br/><input id='poly_name' class='x-large' value='" + replaceAll((buildings[b].name || ""),"'","\\'") + "'/><br/><label>Add Detail</label><br/><textarea id='poly_detail' rows='6' cols='25'>" + replaceAll(replaceAll((buildings[b].description || ""),"<","&lt;"),">","&gt;") + "</textarea><br/><a class='btn' onclick='saveDetail()' style='width:40%;'>Save</a>");
       map.addLayer(pt);
@@ -87,8 +85,8 @@ function addDropdown(givendata){
 }
 function setStatus(id, status){
   console.log(id + " set to " + status);
-  $.getJSON("/changetable?table=collegeplusintown&id=" + id + "&status=" + status, function(data){ });
-  $.getJSON("http://mapmeld.cartodb.com/api/v2/sql?format=GeoJSON&q=SELECT%20the_geom%20FROM%20collegeplusintown%20WHERE%20cartodb_id=" + id).done(function(poly){
+  $.getJSON(api_server + "/changetable?table=" + table_name + "&id=" + id + "&status=" + status, function(data){ });
+  $.getJSON("http://" + user_name + ".cartodb.com/api/v2/sql?format=GeoJSON&q=SELECT%20the_geom%20FROM%20" + table_name + "%20WHERE%20cartodb_id=" + id).done(function(poly){
     // until zoom changes and tiles are refreshed, show polygon
     L.geoJson(poly, {
       style: function (feature) {
@@ -130,7 +128,7 @@ function dropped(e){
     var dropMarker = new L.Marker( dropPoint );
     map.addLayer(dropMarker);
     // add a marker to the CartoDB table
-    $.getJSON("/changetable?table=collegeplusintown&marker=newpoint&ll=" + dropPoint.lng.toFixed(6) + "," + dropPoint.lat.toFixed(6), function(data){ console.log(data) });
+    $.getJSON(api_server + "/changetable?table=" + table_name + "&marker=newpoint&ll=" + dropPoint.lng.toFixed(6) + "," + dropPoint.lat.toFixed(6), function(data){ console.log(data) });
   }
   else{
     // fake a click to change status of building at drop point
@@ -150,7 +148,7 @@ function checkForEnter(e){
 }
 function searchAddress(){
   var address = $("#placesearch").val();
-  $.getJSON("/placesearch?address=" + address, function(data){
+  $.getJSON(api_server + "/placesearch?address=" + address, function(data){
     map.setView(new L.LatLng(data.position.split(',')[0], data.position.split(',')[1]), 17);
   });
 }
@@ -162,13 +160,13 @@ function saveDetail(){
   if(id.indexOf("stored:") > -1){
     // editing a stored point
     id = id.replace("stored:","");
-    $.getJSON("/storedbuildings/edit?id=" + id + "&name=" + encodeURIComponent(name) + "&detail=" + encodeURIComponent(detail), function(data){ });
+    $.getJSON(api_server + "/storedbuildings/edit?id=" + id + "&name=" + encodeURIComponent(name) + "&detail=" + encodeURIComponent(detail), function(data){ });
     markers[ id ].unbindPopup();
     markers[ id ].bindPopup("<input type='hidden' id='selectedid' value='stored:" + id + "'/><label>Name</label><br/><input id='poly_name' class='x-large' value='" + name + "'/><br/><label>Add Detail</label><br/><textarea id='poly_detail' rows='6' cols='25'>" + detail + "</textarea><br/><a class='btn' onclick='saveDetail()' style='width:40%;'>Save</a>");
   }
   else{
-    $.getJSON("/detailtable?table=collegeplusintown&id=" + id + "&name=" + encodeURIComponent(name) + "&detail=" + encodeURIComponent(detail), function(data){ });
-    $.getJSON("http://mapmeld.cartodb.com/api/v2/sql?format=GeoJSON&q=SELECT%20the_geom%20FROM%20collegeplusintown%20WHERE%20cartodb_id=" + id).done(function(poly){
+    $.getJSON(api_server + "/detailtable?table=" + table_name + "&id=" + id + "&name=" + encodeURIComponent(name) + "&detail=" + encodeURIComponent(detail), function(data){ });
+    $.getJSON("http://" + user_name + ".cartodb.com/api/v2/sql?format=GeoJSON&q=SELECT%20the_geom%20FROM%20" + table_name + "%20WHERE%20cartodb_id=" + id).done(function(poly){
       // until zoom changes and tiles are refreshed, show polygon with this name and description
       L.geoJson(poly, {
         style: function (feature) {
