@@ -17,7 +17,7 @@ function init(){
   L.control.pan().addTo(map);
   L.control.zoom().addTo(map);
 
-  var toner = 'http://{s}.tile.stamen.com/terrain-lines/{z}/{x}/{y}.png';
+  var toner = 'http://{s}.tile.stamen.com/toner-lines/{z}/{x}/{y}.png';
   var tonerAttrib = 'Map data &copy; 2012 OpenStreetMap contributors, Tiles &copy; 2012 Stamen Design';
   terrainLayer = new L.TileLayer(toner, {maxZoom: 18, attribution: tonerAttrib});
   map.addLayer(terrainLayer);
@@ -43,7 +43,7 @@ function init(){
     },
     //featureOver: function(){},
     //featureOut: function(){},
-    auto_bound: true
+    auto_bound: false
   });
   map.addLayer(cartodb);
   
